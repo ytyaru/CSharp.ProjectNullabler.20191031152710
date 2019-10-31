@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
+using System.IO; // Directory.EnumerateFiles
+using System.Collections.Generic; // IEnumerable<>
+using System.Xml.Linq; // XDocument
 using System.Xml; // XmlWriter 
 using System.Text; // StringBuilder
 
@@ -33,17 +32,10 @@ namespace CSharpProjectNullabler
         static XDocument CreateNullableXDocument(string path)
         {
             XDocument xml = XDocument.Load(path);
-            Console.WriteLine($"xml: {xml}");
-            Console.WriteLine($"<Project>: {xml.Element("Project")}");
-
             XElement project = xml.Element("Project");
             XElement propertyGroup = project.Element("PropertyGroup");
             XElement? nullable = propertyGroup.Element("Nullable");
             if (null == nullable) { propertyGroup.Add(new XElement("Nullable", "enable")); }
-            Console.WriteLine($"propertyGroup: {propertyGroup}");
-            // XML宣言が追記されてしまう！ <?xml version="1.0" encoding="utf-8"?>
-//            xml.Declaration = null; // 効果なし
-//            xml.Save(path);
             return xml;
         }
     }
